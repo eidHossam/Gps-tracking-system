@@ -2,6 +2,7 @@
 #define rs PB5
 #define rw PB6
 #define en PB7
+#define LCD GBIOB
   
 void LCD_setup(void);
 void LCD_data(unsigned char data);
