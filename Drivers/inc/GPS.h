@@ -33,9 +33,4 @@ char gpsCharIn(void);
 void gpsGetCommand(char *command, int length);
 bool get_current_position(char *command, geoPoint_t *currPosition);
 double calculateDistance(geoPoint_t currPoint, geoPoint_t destiation);
-
-
-void SysTick_wait(unsigned long delay);
-void SysTick_wait1s(unsigned long delay);
-
 #endif

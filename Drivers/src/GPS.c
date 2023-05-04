@@ -11,9 +11,9 @@ void gps_init(unsigned clk, unsigned baudrate)
     BRD = ((clk << 2) + (baudrate << 1)) / baudrate;
     UART1_IBRD_R = BRD >> 6;
     UART1_FBRD_R = BRD & 64;
-    UART1_LCRH_R = 0x60;  // UnEnable fifo , 1stop bit , no parity ,8 data bits
+    UART1_LCRH_R = 0x60;  // disable fifo , 1stop bit , no parity ,8 data bits
     UART1_CTL_R |= 0x301; // Enable Uart,RXE,TXE
-    //////////////////////////PORTA_UART_PINS_INITIALISATION
+    //////////////////////////PORTB_UART_PINS_INITIALISATION
     GPIO_PORTB_AFSEL_R |= 0x03;  // Turn on alternate function to pin B0,B1
     GPIO_PORTB_PCTL_R = 0x011;   // Select UART1 for PB0,PB1
     GPIO_PORTB_DEN_R |= 0x03;    // Enable digital
@@ -46,11 +46,10 @@ void gpsGetCommand(char *command, int length)
             break;
 
         command[i] = currentChar;
-        //UART_OutChar(command[i]); // This line is important as it shows you what are you exactly writing in the UART terminal
     }
 }
 
-//Calculating the distance in Km, The values need to be in Rad
+//Calculating the distance in Km, The values need to be in Radian
 double calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
 {
     double currLat = DEG_TO_RAD(currPoint.latitude_d) / 100.0;
@@ -94,24 +93,4 @@ bool get_current_position(char *command, geoPoint_t *currPosition)
     currPosition->longitude_d = strtod(arr[5], &ptr);
 
     return true;
-}
-
-
-void SysTick_wait(unsigned long delay){
-
-	NVIC_ST_CTRL_R = 0;
-	NVIC_ST_RELOAD_R = delay;
-	NVIC_ST_CURRENT_R = 0;
-	NVIC_ST_CTRL_R = 0x5;
-	while((NVIC_ST_CTRL_R & 0x10000) == 00){}
-
-}
-
-//Running on 16MHZ clock 
-void SysTick_wait1s(unsigned long delay){
-	
-	while(delay--)
-	{
-		SysTick_wait(0x00F42400);				//Setting the reload register value to be 16 million
-	}
 }
