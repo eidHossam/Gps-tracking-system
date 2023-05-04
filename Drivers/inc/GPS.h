@@ -10,23 +10,24 @@
 
 #define PI 3.141592653589793238
 #define EARTH_RADIUS 6371
-#define BUFFER_SIZE 128
+#define BUFFER_SIZE 128	// The size of the buffer used for storing GPS Readings
 
-#define DEG_TO_RAD(DEG) ((DEG * PI / 180))
-#define GPRMC "GPRMC"
-#define ACTIVE 'A'
+#define DEG_TO_RAD(DEG) ((DEG * PI / 180)) // Macro to convert degrees to radians
+#define GPRMC "GPRMC" // The start marker for the GPS command we are interested in
+#define ACTIVE 'A'	// The character indicating an active(Valid) GPS signal
 
-#define RxEmptyFlag 0x10
-#define TxFullFlag 0x20
-#define CR 0x0D
+#define RxEmptyFlag 0x10 // The receive buffer empty flag mask
+#define TxFullFlag 0x20 // The transmit buffer full flag mask
+#define CR 0x0D	// The carriage return character
 
+// Struct to store a GPS coordinate as a latitude and longitude in decimal degrees
 typedef struct
 {
     double latitude_d;
     double longitude_d;
 } geoPoint_t;
 
-
+// Function prototypes
 void gps_init(unsigned clk, unsigned baudrate);
 void gpsOutChar(char data);
 char gpsCharIn(void);
