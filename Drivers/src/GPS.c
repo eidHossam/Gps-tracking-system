@@ -35,21 +35,23 @@ char gpsCharIn(void)
     return (char)UART1_DR_R;
 }
 
+// Function to get a command from the GPS module
 void gpsGetCommand(char *command, int length)
 {
     int i;
     char currentChar;
     for (i = 0; i < length; i++)
     {
-        currentChar = gpsCharIn();
-        if (currentChar == CR)
+        currentChar = gpsCharIn();// Get a single character from UART1
+        if (currentChar == CR) // Stop reading if the carriage return character is received
             break;
 
-        command[i] = currentChar;
+        command[i] = currentChar;// Store the received character in the buffer
     }
 }
 
-//Calculating the distance in Km, The values need to be in Radian
+// Function to calculate the distance between two geo points in kilometers
+// The values need to be in Radian
 double calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
 {
     double currLat = DEG_TO_RAD(currPoint.latitude_d) / 100.0;
@@ -57,11 +59,12 @@ double calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
 
     double x = sin(currLat) * sin(destiation.latitude_d);
     double y = cos(currLat) * cos(destiation.latitude_d);
-
+	
+	// Calculate the distance using the Haversine formula
     return acos(x + y * cos(destiation.longitude_d - currlon)) * EARTH_RADIUS;
 }
 
-
+// Function to get the current position from a GPS command and store it in a geoPoint_t struct
 bool get_current_position(char *command, geoPoint_t *currPosition)
 {
     char *token, *latitude, *longitude, *arr[6], *ptr;
@@ -71,11 +74,11 @@ bool get_current_position(char *command, geoPoint_t *currPosition)
     // Skip garbage characters before the start marker
     char *start = strstr(command, GPRMC);
     if (start == NULL)
-        return false;
+        return false;// Return false if the start marker ("GPRMC") is not found in the reading of Gps
 
     command = start;
 
-    // We start tokenizing our command
+    // Tokenize the command using the comma as a delimiter
     token = strtok(command, deli);
 
     while (token != NULL && tokenIndex < 6)
@@ -84,7 +87,7 @@ bool get_current_position(char *command, geoPoint_t *currPosition)
         token = strtok(NULL, deli);
     }
 
-    // We check if our signal is active
+    // Store the latitude and longitude in the geoPoint_t struct
     if (*arr[2] != ACTIVE)
         return false;
 
@@ -92,5 +95,5 @@ bool get_current_position(char *command, geoPoint_t *currPosition)
     currPosition->latitude_d = strtod(arr[3], &ptr);
     currPosition->longitude_d = strtod(arr[5], &ptr);
 
-    return true;
+    return true; // Return true if the current position was successfully obtained
 }
