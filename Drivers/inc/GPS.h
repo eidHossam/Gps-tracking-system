@@ -18,7 +18,7 @@
 
 #define RxEmptyFlag 0x10 // The receive buffer empty flag mask
 #define TxFullFlag 0x20 // The transmit buffer full flag mask
-#define CR 0x0D	// The carriage return character
+#define CR 0x0D	// The carriage return character(\r)
 
 // Struct to store a GPS coordinate as a latitude and longitude in decimal degrees
 typedef struct
