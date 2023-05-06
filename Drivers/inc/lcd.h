@@ -1,7 +1,7 @@
 #include "TM4C123.h"
-#define rs PB5
-#define rw PB6
-#define en PB7
+#define rs PB1
+#define rw PB2
+#define en PB3
 #define LCD GBIOB
   
 void LCD_setup(void);
