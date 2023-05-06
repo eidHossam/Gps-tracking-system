@@ -33,7 +33,7 @@
 // will be configured according to the macros in the rest of this file.
 // If it is defined to be 0, then the system clock configuration is bypassed.
 //
-#define CLOCK_SETUP 0
+#define CLOCK_SETUP 1
 
 //********************************* RCC ***************************************
 //
@@ -573,7 +573,6 @@ void SystemCoreClockUpdate (void)            /* Get Core Clock Frequency      */
  */
 void SystemInit (void)
 {
-	__disable_fault_irq();
 #if(CLOCK_SETUP)
     uint32_t i;
 #endif
