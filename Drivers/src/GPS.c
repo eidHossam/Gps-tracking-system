@@ -35,7 +35,7 @@ char gpsCharIn(void)
     return (char)UART1_DR_R;
 }
 
-// Function to get a command from the GPS module
+
 void gpsGetCommand(char *command, int length)
 {
     int i;
