@@ -7,8 +7,14 @@
 #include "SysTick.h"
 #include "lcd.h"
 
+#define MAX_ALLOWED_ERRORS 10
 
 void locatingSatellite(char* command, geoPoint_t* currPosition);
 void readyState();
+bool getStartingPosition(char* command, geoPoint_t* currPosition);
+void errorState();
+void reachingState();
+void destiationIsFar();
+void destinationReached();
 
 #endif

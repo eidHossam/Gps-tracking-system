@@ -11,7 +11,7 @@
 #include <stdbool.h>
 
 #define PI 3.141592653589793238
-#define EARTH_RADIUS 6371
+#define EARTH_RADIUS 6371000
 #define BUFFER_SIZE 128	// The size of the buffer used for storing GPS Readings
 
 #define DEG_TO_RAD(DEG) ((DEG * PI / 180)) // Macro to convert degrees to radians

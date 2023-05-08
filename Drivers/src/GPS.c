@@ -50,7 +50,7 @@ void gpsGetCommand(char *command, int length)
     }
 }
 
-// Function to calculate the distance between two geo points in kilometers
+// Function to calculate the distance between two geo points in meters
 // The values need to be in Radian
 float calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
 {
