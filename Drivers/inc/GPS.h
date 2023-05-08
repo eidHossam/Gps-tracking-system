@@ -2,6 +2,8 @@
 #define GPS_H
 
 #include "tm4c123gh6pm.h"
+#include "uart.h"
+#include "lcd.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -23,9 +25,10 @@
 // Struct to store a GPS coordinate as a latitude and longitude in decimal degrees
 typedef struct
 {
-    double latitude_d;
-    double longitude_d;
+    float latitude_d;
+    float longitude_d;
 } geoPoint_t;
+
 
 // Function prototypes
 void gps_init(unsigned clk, unsigned baudrate);
@@ -33,5 +36,7 @@ void gpsOutChar(char data);
 char gpsCharIn(void);
 void gpsGetCommand(char *command, int length);
 bool get_current_position(char *command, geoPoint_t *currPosition);
-double calculateDistance(geoPoint_t currPoint, geoPoint_t destiation);
+float calculateDistance(geoPoint_t currPoint, geoPoint_t destiation);
+geoPoint_t getDestination();
+
 #endif
