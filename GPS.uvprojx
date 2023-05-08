@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>hosni</OutputName>
+          <OutputName>HossamGPS</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -323,7 +323,7 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>3</wLevel>
+            <wLevel>4</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
@@ -394,15 +394,65 @@
               <FileType>1</FileType>
               <FilePath>.\drivers\src\gps.c</FilePath>
             </File>
+            <File>
+              <FileName>lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Drivers\src\lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>SysTick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Drivers\src\SysTick.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Drivers\src\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Drivers\src\GPIO_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>States.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Drivers\src\States.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>include</GroupName>
           <Files>
             <File>
-              <FileName>gps.h</FileName>
+              <FileName>lcd.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\drivers\include\gps.h</FilePath>
+              <FilePath>.\Drivers\inc\lcd.h</FilePath>
+            </File>
+            <File>
+              <FileName>SysTick.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Drivers\inc\SysTick.h</FilePath>
+            </File>
+            <File>
+              <FileName>uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Drivers\inc\uart.h</FilePath>
+            </File>
+            <File>
+              <FileName>GPS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Drivers\inc\GPS.h</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Drivers\inc\GPIO_init.h</FilePath>
+            </File>
+            <File>
+              <FileName>States.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Drivers\inc\States.h</FilePath>
             </File>
           </Files>
         </Group>
