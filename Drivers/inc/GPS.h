@@ -37,6 +37,7 @@ char gpsCharIn(void);
 void gpsGetCommand(char *command, int length);
 bool get_current_position(char *command, geoPoint_t *currPosition);
 float calculateDistance(geoPoint_t currPoint, geoPoint_t destiation);
+float toDecimalDeg(char *gpsReading);
 geoPoint_t getDestination();
 
 #endif

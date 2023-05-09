@@ -54,14 +54,18 @@ void gpsGetCommand(char *command, int length)
 // The values need to be in Radian
 float calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
 {
-    float currLat = DEG_TO_RAD(currPoint.latitude_d) / 100.0;
-    float currlon = DEG_TO_RAD(currPoint.longitude_d) / 100.0;
+	float currLat = DEG_TO_RAD(currPoint.latitude_d);
+    float currlon = DEG_TO_RAD(currPoint.longitude_d);
+    float dLat = destiation.latitude_d - currLat;
+    float dLon = destiation.longitude_d - currlon;
 
-    float x = sin(currLat) * sin(destiation.latitude_d);
-    float y = cos(currLat) * cos(destiation.latitude_d);
-	
-	// Calculate the distance using the Haversine formula
-    return acos(x + y * cos(destiation.longitude_d - currlon)) * EARTH_RADIUS;
+    float a = sin(dLat / 2) * sin(dLat / 2) +
+              cos(currLat) * cos(destiation.latitude_d) *
+                  sin(dLon / 2) * sin(dLon / 2);
+    float c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    float distance = EARTH_RADIUS * c;
+    return distance;
 }
 
 
@@ -95,8 +99,9 @@ bool get_current_position(char *command, geoPoint_t *currPosition)
         return false;
 
     // Stroing the data in our struct in double
-    currPosition->latitude_d = strtod(arr[3], &ptr);
-    currPosition->longitude_d = strtod(arr[5], &ptr);
+     currPosition->latitude_d = toDecimalDeg(arr[3]);
+    currPosition->longitude_d = toDecimalDeg(arr[5]);
+
 
     return true; // Return true if the current position was successfully obtained
 }
@@ -123,4 +128,12 @@ geoPoint_t getDestination()
 		return dest;
 }
 
+float toDecimalDeg(char *gpsReading)
+{
+    float floatReading = atof(gpsReading) / 100;
+    int integerPart = (int)(floatReading);
+    float decimalPart = (floatReading - integerPart) * 100 / 60.0;
+
+    return (integerPart + decimalPart);
+}
 	
