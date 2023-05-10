@@ -55,9 +55,13 @@ void gpsGetCommand(char *command, int length)
 float calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
 {
 	float currLat = DEG_TO_RAD(currPoint.latitude_d);
-    float currlon = DEG_TO_RAD(currPoint.longitude_d);
-    float dLat = destiation.latitude_d - currLat;
-    float dLon = destiation.longitude_d - currlon;
+    float currLon = DEG_TO_RAD(currPoint.longitude_d);
+	
+	float destLat = DEG_TO_RAD(destiation.latitude_d);
+    float destLon = DEG_TO_RAD(destiation.longitude_d);
+	
+    float dLat = destLat - currLat;
+    float dLon = destLon - currLon;
 
     float a = sin(dLat / 2) * sin(dLat / 2) +
               cos(currLat) * cos(destiation.latitude_d) *
@@ -122,8 +126,8 @@ geoPoint_t getDestination()
 		UART0_readstring(lon, CR);
 		UART0_clearScreen();
 		
-		dest.latitude_d = DEG_TO_RAD(atof(lat));
-		dest.longitude_d = DEG_TO_RAD(atof(lon));
+		dest.latitude_d = atof(lat);
+		dest.longitude_d = atof(lon);
 		 
 		return dest;
 }
