@@ -3,17 +3,18 @@
 void locatingSatellite(char *command, geoPoint_t *currPosition)
 {
     RGB_output(blueLED);
-
-    gpsGetCommand(command, BUFFER_SIZE);
+	
+	LCD_Clearscreen();
+    LCD_cursor_pos(3, 0);
+    LCD_writeString("Searching");
+    LCD_cursor_pos(0, 1);
+	LCD_writeString("For Satellites");
+	
+	gpsGetCommand(command, BUFFER_SIZE);
     while (!get_current_position(command, currPosition))
-    {
-        LCD_Clearscreen();
-        LCD_cursor_pos(0, 0);
-        LCD_writeString("Searching");
         gpsGetCommand(command, BUFFER_SIZE);
-    }
-
-    //SysTick_wait_1ms(5000);
+	
+	LCD_Clearscreen();
 }
 
 void readyState()
@@ -21,11 +22,11 @@ void readyState()
     RGB_output((blueLED | redLED));
 
     LCD_Clearscreen();
-    LCD_cursor_pos(0, 5);
-    LCD_writeString("Ready");
+    LCD_cursor_pos(3, 0);
+    LCD_writeString("GPS Ready");
 
-    LCD_cursor_pos(1, 2);
-    LCD_writeString("Press Sw1 to start");
+    LCD_cursor_pos(2, 1);
+    LCD_writeString("Sw1 to start");
 
     while (SW1_input() != 0)
         ;
@@ -59,13 +60,15 @@ void destiationIsFar()
 
 void destinationReached()
 {
-	RGB_output(greenLED);
+		RGB_output(greenLED);
 	
-	LCD_Clearscreen();
+		LCD_Clearscreen();
     LCD_cursor_pos(0, 0);
-    LCD_writeString("Destination reached!.");
+    LCD_writeString("Destination");
+		LCD_cursor_pos(2,1);
+		LCD_writeString("Reached!");
 	
-	SysTick_wait_1ms(10000); 
+		SysTick_wait_1ms(5000); 
 }
 
 bool getStartingPosition(char* command, geoPoint_t* currPosition)
