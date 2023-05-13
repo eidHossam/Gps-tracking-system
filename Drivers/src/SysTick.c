@@ -1,5 +1,5 @@
 #include "SysTick.h"
-#include "io.h"
+
 
 void initClock()
 {
@@ -52,10 +52,16 @@ void SysTick_wait(unsigned long delay) //Same as init but for selected delay
 		while((NVIC_ST_CTRL_R&0x00010000)==0){}
 }
 
-void SysTick_wait_loop(unsigned long count){
+void SysTick_wait_1ms(unsigned long count){
 		int i; 											//Give it number of desired ms
 		for(i=0;i<count;i++){
 		SysTick_wait(16000); 				//Wait (count) ms
 	}
+}
 
+void SysTick_wait_1us(unsigned long count){
+		int i; 											//Give it number of desired us
+		for(i=0;i<count;i++){
+		SysTick_wait(16); 				//Wait (count) us
+	}
 }

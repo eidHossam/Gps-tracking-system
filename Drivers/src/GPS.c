@@ -50,21 +50,30 @@ void gpsGetCommand(char *command, int length)
     }
 }
 
-// Function to calculate the distance between two geo points in kilometers
+// Function to calculate the distance between two geo points in meters
 // The values need to be in Radian
-double calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
+float calculateDistance(geoPoint_t currPoint, geoPoint_t destiation)
 {
-    double currLat = DEG_TO_RAD(currPoint.latitude_d) / 100.0;
-    double currlon = DEG_TO_RAD(currPoint.longitude_d) / 100.0;
-
-    double x = sin(currLat) * sin(destiation.latitude_d);
-    double y = cos(currLat) * cos(destiation.latitude_d);
+	float currLat = DEG_TO_RAD(currPoint.latitude_d);
+    float currLon = DEG_TO_RAD(currPoint.longitude_d);
 	
-	// Calculate the distance using the Haversine formula
-    return acos(x + y * cos(destiation.longitude_d - currlon)) * EARTH_RADIUS;
+	float destLat = DEG_TO_RAD(destiation.latitude_d);
+    float destLon = DEG_TO_RAD(destiation.longitude_d);
+	
+    float dLat = destLat - currLat;
+    float dLon = destLon - currLon;
+
+    float a = sin(dLat / 2) * sin(dLat / 2) +
+              cos(currLat) * cos(destiation.latitude_d) *
+                  sin(dLon / 2) * sin(dLon / 2);
+    float c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    float distance = EARTH_RADIUS * c;
+    return distance;
 }
 
-// Function to get the current position from a GPS command and store it in a geoPoint_t struct
+
+
 bool get_current_position(char *command, geoPoint_t *currPosition)
 {
     char *token, *latitude, *longitude, *arr[6], *ptr;
@@ -73,8 +82,10 @@ bool get_current_position(char *command, geoPoint_t *currPosition)
 
     // Skip garbage characters before the start marker
     char *start = strstr(command, GPRMC);
-    if (start == NULL)
-        return false;// Return false if the start marker ("GPRMC") is not found in the reading of Gps
+    
+		// Return false if the start marker ("GPRMC") is not found in the reading of Gps
+		if (start == NULL)
+        return false;
 
     command = start;
 
@@ -87,13 +98,46 @@ bool get_current_position(char *command, geoPoint_t *currPosition)
         token = strtok(NULL, deli);
     }
 
-    // Store the latitude and longitude in the geoPoint_t struct
+    // Check if the signal is active
     if (*arr[2] != ACTIVE)
         return false;
 
     // Stroing the data in our struct in double
-    currPosition->latitude_d = strtod(arr[3], &ptr);
-    currPosition->longitude_d = strtod(arr[5], &ptr);
+     currPosition->latitude_d = toDecimalDeg(arr[3]);
+    currPosition->longitude_d = toDecimalDeg(arr[5]);
+
 
     return true; // Return true if the current position was successfully obtained
 }
+
+
+//Getting the destination lat and long from the laptop through UART
+geoPoint_t getDestination()
+{
+		char lat[10], lon[10];	
+		geoPoint_t dest;
+		
+		UART0_clearScreen();
+		UART0_writestring("Enter the destination latitude: ");
+		UART0_readstring(lat, CR);
+		UART0_clearScreen();
+		
+		UART0_writestring("Enter the destination longitude: ");
+		UART0_readstring(lon, CR);
+		UART0_clearScreen();
+		
+		dest.latitude_d = atof(lat);
+		dest.longitude_d = atof(lon);
+		 
+		return dest;
+}
+
+float toDecimalDeg(char *gpsReading)
+{
+    float floatReading = atof(gpsReading) / 100;
+    int integerPart = (int)(floatReading);
+    float decimalPart = (floatReading - integerPart) * 100 / 60.0;
+
+    return (integerPart + decimalPart);
+}
+	
