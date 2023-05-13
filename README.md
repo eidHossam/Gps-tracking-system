@@ -3,7 +3,7 @@
 
 ## Circuit Implementation
 
-Our project consists of five main components:
+Our project consists of three main components:
 1.	TM4C123GH6PM microcontroller
 2.	RC1602E character LCD
 3.	Ublox NEO-6m GPS Module
