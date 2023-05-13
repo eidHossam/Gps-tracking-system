@@ -1,4 +1,4 @@
-#include "lcd.h"
+#include "LCD.h"
 
 void LCD_init(void)
 {
